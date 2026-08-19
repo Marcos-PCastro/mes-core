@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup>
+
+    <!-- Nullable reference types: ajuda a detectar possíveis problemas com null -->
+    <Nullable>enable</Nullable>
+
+    <!-- Trata warnings como erros -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+    <!-- Usa a versão mais recente disponível da linguagem C# -->
+    <LangVersion>latest</LangVersion>
+
+    <!-- Versão do .NET utilizada pelos projetos -->
+    <TargetFramework>net10.0</TargetFramework>
+
+    <!-- Metadados do pacote -->
+    <Authors>seu-nome-aqui</Authors>
+    <Company></Company>
+
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,14 @@
+**/bin/
+**/obj/
+
+.git/
+.github/
+
+node_modules/
+web/node_modules/
+
+.vs/
+.vscode/
+
+*.user
+*.suo

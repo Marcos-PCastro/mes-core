@@ -1,0 +1,82 @@
+﻿name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend:
+    name: Backend — build, test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Unit tests
+        run: dotnet test tests/Mes.Domain.UnitTests/Mes.Domain.UnitTests.csproj --no-build --configuration Release
+
+      - name: Property tests
+        run: dotnet test tests/Mes.Domain.PropertyTests/Mes.Domain.PropertyTests.csproj --no-build --configuration Release
+
+      - name: Integration tests
+        run: dotnet test tests/Mes.Api.IntegrationTests/Mes.Api.IntegrationTests.csproj --no-build --configuration Release
+
+  frontend:
+    name: Frontend — lint, build
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: web
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+  docker:
+    name: Docker — build images
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build API image
+        run: docker build -f src/Mes.Api/Dockerfile -t mes-api .
+
+      - name: Build Simulator image
+        run: docker build -f src/Mes.Simulator/Dockerfile -t mes-simulator .
+
+      - name: Build Frontend image
+        run: docker build -f web/Dockerfile -t mes-frontend web/
