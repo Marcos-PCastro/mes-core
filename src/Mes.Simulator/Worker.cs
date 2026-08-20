@@ -1,16 +1,16 @@
 namespace Mes.Simulator;
 
-public class Worker(ILogger<Worker> logger) : BackgroundService
+public sealed class Worker(ILogger<Worker> logger, IConfiguration configuration)
+    : BackgroundService
 {
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (!stoppingToken.IsCancellationRequested)
-        {
-            if (logger.IsEnabled(LogLevel.Information))
-            {
-                logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-            }
-            await Task.Delay(1000, stoppingToken);
-        }
+        var enabled = configuration.GetValue("Simulator:Enabled", defaultValue: false);
+
+        logger.LogInformation(
+            "Simulator starting. Enabled={Enabled}. Equipment simulation lands in Sprint 8.",
+            enabled);
+
+        return Task.CompletedTask;
     }
 }
