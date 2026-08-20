@@ -1,19 +1,38 @@
 root = true
+
 [*]
 charset = utf-8
 end_of_line = lf
 indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
+
 [*.{cs,csx}]
 indent_size = 4
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = false
-# Naming rules
-dotnet_naming_rule.private_fields_should_be_camel_case.severity dotnet_naming_rule.private_fields_should_be_camel_case.symbols dotnet_naming_rule.private_fields_should_be_camel_case.style dotnet_naming_symbols.private_fields.applicable_kinds = field
-dotnet_naming_symbols.private_fields.applicable_accessibilities dotnet_naming_style.camel_case_style.capitalization = camel_[*.{ts,tsx,js,jsx}]
+
+# ── Naming: campos privados em camelCase com underscore ──────────────
+dotnet_naming_rule.private_fields_should_be_camel_case.severity = warning
+dotnet_naming_rule.private_fields_should_be_camel_case.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_camel_case.style = underscore_camel_case
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+
+dotnet_naming_style.underscore_camel_case.capitalization = camel_case
+dotnet_naming_style.underscore_camel_case.required_prefix = _
+
+# ── Analyzers que valem a pena tratar como erro ──────────────────────
+dotnet_diagnostic.CA2007.severity = none      # ConfigureAwait: irrelevante em ASP.NET Core
+dotnet_diagnostic.CA1848.severity = none      # LoggerMessage delegates: excesso p/ este porte
+dotnet_diagnostic.IDE0055.severity = warning  # formatação
+
+[*.{ts,tsx,js,jsx}]
 indent_size = 2
+
 [*.{json,yml,yaml}]
 indent_size = 2
+
 [*.md]
 trim_trailing_whitespace = false

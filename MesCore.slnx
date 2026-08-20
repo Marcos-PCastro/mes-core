@@ -6,4 +6,15 @@
     <Project Path="src/Mes.Infrastructure/Mes.Infrastructure.csproj" />
     <Project Path="src/Mes.Simulator/Mes.Simulator.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Mes.Api.IntegrationTests/Mes.Api.IntegrationTests.csproj" />
+    <Project Path="tests/Mes.Domain.PropertyTests/Mes.Domain.PropertyTests.csproj" />
+    <Project Path="tests/Mes.Domain.UnitTests/Mes.Domain.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/solution-items/">
+    <File Path="Directory.Build.props" />
+    <File Path=".editorconfig" />
+    <File Path="docker-compose.yml" />
+    <File Path="README.md" />
+  </Folder>
 </Solution>
