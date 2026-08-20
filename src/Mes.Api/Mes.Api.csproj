@@ -1,14 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.30" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+
+    <!-- UI para navegar o OpenAPI. Substitui o Swagger UI -->
+    <PackageReference Include="Scalar.AspNetCore" Version="2.0.0" />
+
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+
+    <!-- Força a versão corrigida da dependência transitiva do OpenApi.
+         Microsoft.OpenApi <= 2.7.4 tem vulnerabilidade GHSA-v5pm-xwqc-g5wc (CVE-2026-49451).
+         Versão corrigida: 2.7.5+. Remover esta entrada quando Microsoft.AspNetCore.OpenApi
+         atualizar a dependência automaticamente. -->
+    <PackageReference Include="Microsoft.OpenApi" Version="2.7.5" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mes.Application\Mes.Application.csproj" />
+    <ProjectReference Include="..\Mes.Infrastructure\Mes.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+  <InternalsVisibleTo Include="Mes.Api.IntegrationTests" />
+</ItemGroup>
 
 </Project>
